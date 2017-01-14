@@ -25,6 +25,13 @@ module.exports = {
     controller.generic.getPosts(req.params.page, req.params.skip, function(tweets) {
       res.send(tweets);
     });
+  },
+
+  newHash : function(req, res) {
+    console.log("Inside Service");
+    controller.generic.setHash(req.params.hashtag, function(status) {
+      console.log("Hash Changed")
+    });
   }
 
 }

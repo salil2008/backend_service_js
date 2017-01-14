@@ -22,6 +22,7 @@ var twit = new twitter(config.twitter);
 
 app.get('/', routes.index);
 app.get('/page/:page/:skip', routes.page);
+app.get('/newHash/:hashtag', routes.newHash);
 
 
 app.use("/", express.static(__dirname + "/public/"));
@@ -30,8 +31,8 @@ var server = http.createServer(app).listen(port, function() {
   console.log('Express server listening on port ' + port);
 });
 
-var io = require('socket.io').listen(server);
-
-twit.stream('statuses/filter',{ track: '#HashTag'}, function(stream){
-  controller.generic.saveStream(stream,io);
-});
+//var io = require('socket.io').listen(server);
+controller.generic.sockets(server);
+// twit.stream('statuses/filter',{ track: '#HashTag'}, function(stream){
+//   controller.generic.saveStream(stream,io);
+// });

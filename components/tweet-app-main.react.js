@@ -3,6 +3,7 @@ var React = require('react');
 var Tweets = require('./tweet-map.react.js');
 var Loader = require('./loader.react.js');
 var NotificationBar = require('./notify.react.js');
+var InputBox = require('./inputbox.react.js');
 
 module.exports = TweetsApp = React.createClass({
 
@@ -121,10 +122,28 @@ module.exports = TweetsApp = React.createClass({
 
   },
 
+  onHashChange : function () {
+    console.log("Hitting onHashChange");
+    var hashtag = document.getElementById('hash').value;
+
+    var request = new XMLHttpRequest(), self = this;
+    request.open('GET', 'newHash/' + hashtag, true);
+    // request.onload = function() {
+    //
+    //   if (request.status >= 200 && request.status < 400){
+    //     //this.setState(this.getInitialState(newProps));
+    //   } else {
+    //     self.setState({paging: false, done: true});
+    //   }
+    // };
+    request.send();
+  },
+
   render: function(){
 
     return (
       <div className="tweets-app">
+        <InputBox onHashChange = {this.onHashChange}/>
         <Tweets tweets={this.state.tweets} />
         <Loader paging={this.state.paging}/>
         <NotificationBar count={this.state.count} onShowNewTweets={this.showNewTweets}/>

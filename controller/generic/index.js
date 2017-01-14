@@ -1,28 +1,36 @@
-var knex = require('knex')({
-	client: 'mysql',
-	connection: {
-	    host     : '85.10.205.173',
-			port: 3306,
-        user     : 'salil2008',
-        password : '12345678',
-        database : 'tweetapp'
-	}
-});
-
 // var knex = require('knex')({
 // 	client: 'mysql',
 // 	connection: {
-// 	    host     : 'localhost',
-//         user     : 'root',
-//         password : 'root',
+// 	    host     : '85.10.205.173',
+// 			port: 3306,
+//         user     : 'salil2008',
+//         password : '12345678',
 //         database : 'tweetapp'
 // 	}
 // });
-
+var knex = require('knex')({
+	client: 'mysql',
+	connection: {
+	    host     : 'localhost',
+        user     : 'root',
+        password : 'root',
+        database : 'tweetapp'
+	}
+});
+var twitter = require('twitter');
+var config = require('../../config');
+var twit = new twitter(config.twitter);
+var sockets = require('../../socketEvents');
+var io;
+console.log(sockets);
 console.log('DB Connection Established');
+
 
 var self = module.exports = {
   //Methods Here
+	sockets : function(server){
+		io = require('socket.io').listen(server);
+	},
 
   getPosts : function(page, skip, callback) {
     console.log("Inside Main Method");
@@ -48,7 +56,7 @@ var self = module.exports = {
 
 	saveStream : function(stream, io){
 
-
+		console.log(io);
 		stream.on('data', function(data) {
 
 	    if (data['user'] !== undefined) {
@@ -78,6 +86,35 @@ var self = module.exports = {
 	    }
 
 	  });
+
+	},
+
+	restartStream : function(route) {
+		console.log("restarting stream");
+		if(route = 'change_hash') {
+
+			knex.select('hashtag').from('NewTable').orderBy('id','desc')
+			.limit(1)
+			.then(function(data){
+				console.log(data)
+				twit.stream('statuses/filter',{ track: data[0].hashtag}, function(stream){
+				  self.saveStream(stream,io);
+				});
+			})
+
+		}
+	},
+
+	setHash : function(hash, callback) {
+		console.log("setting hash");
+		console.log(hash);
+		var contanier = {
+			hashtag : hash
+		}
+		knex.insert(contanier).into('NewTable')
+		.then(function(result){
+			self.restartStream('change_hash')
+		})
 
 	}
 

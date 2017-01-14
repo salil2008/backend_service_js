@@ -11,6 +11,7 @@ module.exports = Tweet = React.createClass({
           <cite>
             <a href={"http://www.twitter.com/" + tweet.screenname}>{tweet.author}</a>
             <span className="screen-name">@{tweet.screenname}</span>
+            <span className="screen-name">{tweet.date}</span>
           </cite>
           <span className="content">{tweet.body}</span>
         </blockquote>
