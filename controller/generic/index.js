@@ -1,22 +1,22 @@
-// var knex = require('knex')({
-// 	client: 'mysql',
-// 	connection: {
-// 	    host     : '85.10.205.173',
-// 			port: 3306,
-//         user     : 'salil2008',
-//         password : '12345678',
-//         database : 'tweetapp'
-// 	}
-// });
 var knex = require('knex')({
 	client: 'mysql',
 	connection: {
-	    host     : 'localhost',
-        user     : 'root',
-        password : 'root',
+	    host     : '85.10.205.173',
+			port: 3306,
+        user     : 'salil2008',
+        password : '12345678',
         database : 'tweetapp'
 	}
 });
+// var knex = require('knex')({
+// 	client: 'mysql',
+// 	connection: {
+// 	    host     : 'localhost',
+//         user     : 'root',
+//         password : 'root',
+//         database : 'tweetapp'
+// 	}
+// });
 var twitter = require('twitter');
 var config = require('../../config');
 var twit = new twitter(config.twitter);
