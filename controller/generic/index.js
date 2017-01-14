@@ -9,6 +9,16 @@ var knex = require('knex')({
 	}
 });
 
+// var knex = require('knex')({
+// 	client: 'mysql',
+// 	connection: {
+// 	    host     : 'localhost',
+//         user     : 'root',
+//         password : 'root',
+//         database : 'tweetapp'
+// 	}
+// });
+
 console.log('DB Connection Established');
 
 var self = module.exports = {
