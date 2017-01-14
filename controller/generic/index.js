@@ -8,6 +8,14 @@ var knex = require('knex')({
         database : 'tweetapp'
 	}
 });
+var twitter = require('twitter');
+var config = require('../../config');
+var twit = new twitter(config.twitter);
+var sockets = require('../../socketEvents');
+var io;
+console.log(sockets);
+console.log('DB Connection Established');
+
 // var knex = require('knex')({
 // 	client: 'mysql',
 // 	connection: {
@@ -17,14 +25,6 @@ var knex = require('knex')({
 //         database : 'tweetapp'
 // 	}
 // });
-var twitter = require('twitter');
-var config = require('../../config');
-var twit = new twitter(config.twitter);
-var sockets = require('../../socketEvents');
-var io;
-console.log(sockets);
-console.log('DB Connection Established');
-
 
 var self = module.exports = {
   //Methods Here
