@@ -1,13 +1,15 @@
 var knex = require('knex')({
-	client: 'mysql',
+	client: 'pg',
 	connection: {
-	    host     : '85.10.205.173',
-			port: 3306,
-        user     : 'salil2008',
-        password : '12345678',
-        database : 'tweetapp'
+	    host     : 'ec2-54-163-224-108.compute-1.amazonaws.com',
+			port: 5432,
+        user     : 'klgevxyemxznyx',
+        password : '934d15e1669c7413669ae386f7f0517972eadb40995a6dff358922291246793b',
+        database : 'de8rgh8tv2v743',
+				ssl : true
 	}
 });
+//Using postgress as mysql instance is down!!!
 var twitter = require('twitter');
 var config = require('../../config');
 var twit = new twitter(config.twitter);
@@ -93,7 +95,7 @@ var self = module.exports = {
 		console.log("restarting stream");
 		if(route = 'change_hash') {
 
-			knex.select('hashtag').from('NewTable').orderBy('id','desc')
+			knex.select('hashtag').from('newtable').orderBy('id','desc')
 			.limit(1)
 			.then(function(data){
 				console.log(data)
@@ -111,7 +113,7 @@ var self = module.exports = {
 		var contanier = {
 			hashtag : hash
 		}
-		knex.insert(contanier).into('NewTable')
+		knex.insert(contanier).into('newtable')
 		.then(function(result){
 			self.restartStream('change_hash')
 		})
