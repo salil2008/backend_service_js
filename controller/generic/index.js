@@ -58,7 +58,7 @@ var self = module.exports = {
 
 	saveStream : function(stream, io){
 
-		console.log(io);
+		//console.log(io);
 		stream.on('data', function(data) {
 
 	    if (data['user'] !== undefined) {

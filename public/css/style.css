@@ -226,6 +226,31 @@ footer .update-message
     clear: both;
 }
 
+.change_hash
+{
+    text-align: center;
+    margin-top:20px;
+}
+
+.change_hash button
+{
+    border: 2px solid #2c3e50;
+    background: #fff;
+    padding: 5px 10px;
+}
+
+#hash:focus
+{
+    border-color:#2c3e50;
+    outline:none;
+}
+
+#hash
+{
+    border:2px solid #eee;
+    padding: 5px 10px;
+}
+
 @media (max-width: 650px)
 {
     footer span.update-message

@@ -2,13 +2,11 @@
 var React = require('react');
 var Tweets = require('./tweet-map.react.js');
 var Loader = require('./loader.react.js');
-var NotificationBar = require('./notify.react.js');
 var InputBox = require('./inputbox.react.js');
 
 module.exports = TweetsApp = React.createClass({
 
   addTweet: function(tweet){
-
     var updated = this.state.tweets;
 
     var count = this.state.count + 1;
@@ -17,12 +15,17 @@ module.exports = TweetsApp = React.createClass({
 
     updated.unshift(tweet);
 
-    this.setState({tweets: updated, count: count, skip: skip});
+    //Setting tweets to active
+    updated.forEach(function(tweet){
+      tweet.active = true;
+    });
+
+    //Set application state with the latest tweets
+    this.setState({tweets: updated, count: 0});
 
   },
 
   getPage: function(page){
-
     var request = new XMLHttpRequest(), self = this;
     request.open('GET', 'page/' + page + "/" + this.state.skip, true);
     request.onload = function() {
@@ -36,18 +39,8 @@ module.exports = TweetsApp = React.createClass({
     request.send();
   },
 
-  showNewTweets: function(){
-
-    var updated = this.state.tweets;
-
-    updated.forEach(function(tweet){
-      tweet.active = true;
-    });
-    this.setState({tweets: updated, count: 0});
-  },
-
   loadPagedTweets: function(tweets){
-
+    console.log("loadPagedTweets");
     var self = this;
 
     if(tweets.length > 0) {
@@ -73,7 +66,7 @@ module.exports = TweetsApp = React.createClass({
   },
 
   checkWindowScroll: function(){
-
+    console.log("checkWindowScroll");
     var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
     var s = (document.body.scrollTop || document.documentElement.scrollTop || 0);
     var scrolled = (h + s) > document.body.offsetHeight;
@@ -88,7 +81,7 @@ module.exports = TweetsApp = React.createClass({
   },
 
   getInitialState: function(props){
-
+    console.log("getInitialState");
     props = props || this.props;
 
     return {
@@ -103,11 +96,12 @@ module.exports = TweetsApp = React.createClass({
   },
 
   componentWillReceiveProps: function(newProps, oldProps){
+    console.log("componentWillReceiveProps");
     this.setState(this.getInitialState(newProps));
   },
 
   componentDidMount: function(){
-
+    console.log("componentDidMount");
     var self = this;
 
     var socket = io.connect();
@@ -128,14 +122,6 @@ module.exports = TweetsApp = React.createClass({
 
     var request = new XMLHttpRequest(), self = this;
     request.open('GET', 'newHash/' + hashtag, true);
-    // request.onload = function() {
-    //
-    //   if (request.status >= 200 && request.status < 400){
-    //     //this.setState(this.getInitialState(newProps));
-    //   } else {
-    //     self.setState({paging: false, done: true});
-    //   }
-    // };
     request.send();
   },
 
@@ -146,7 +132,6 @@ module.exports = TweetsApp = React.createClass({
         <InputBox onHashChange = {this.onHashChange}/>
         <Tweets tweets={this.state.tweets} />
         <Loader paging={this.state.paging}/>
-        <NotificationBar count={this.state.count} onShowNewTweets={this.showNewTweets}/>
       </div>
     )
 
