@@ -8,7 +8,7 @@ module.exports = Tweets = React.createClass({
 
     var content = this.props.tweets.map(function(tweet){
       return (
-        <Tweet key={tweet._id} tweet={tweet} />
+        <Tweet key={tweet.twid} tweet={tweet} />
       )
     });
 

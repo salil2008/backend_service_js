@@ -21,7 +21,9 @@ module.exports = TweetsApp = React.createClass({
     });
 
     //Set application state with the latest tweets
-    this.setState({tweets: updated, count: 0});
+    if(this.state.count > 5) {
+      this.setState({tweets: updated, count: 0});
+    }
 
   },
 
